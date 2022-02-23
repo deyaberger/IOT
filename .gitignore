@@ -7,6 +7,8 @@
 *.rsuser
 *.suo
 *.user
+*.vagrant
+
 *.userosscache
 *.sln.docstates
 

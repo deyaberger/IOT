@@ -1,0 +1,24 @@
+Vagrant.configure(2) do |config|
+	
+	config.vm.box = "joepyjoep/centosVB"
+	config.vm.box_version = "1.0"
+
+	config.vm.provision "shell", inline: <<-SHELL
+	  yum update -y
+	  yum install -y net-tools
+	SHELL
+
+	config.vm.define "dbergerp2S" do |control|
+		control.vm.hostname = "dbergerp2S"
+		control.vm.network "private_network", ip: "192.168.56.10"
+		control.vm.provider "virtualbox" do |v|
+			v.customize ["modifyvm", :id, "--name", "dbergerp2S"]
+			v.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+			v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+			v.memory = 512
+			v.cpus = 1
+		end
+		control.vm.provision "shell", path: "scripts/installS.sh"
+	end
+
+end
